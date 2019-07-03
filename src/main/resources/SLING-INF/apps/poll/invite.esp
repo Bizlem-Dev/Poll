@@ -1,0 +1,91 @@
+<%load("include/header.esp");%>
+<link href="<%=request.getContextPath()%>/apps/poll/css/user-select.css" rel="stylesheet" type="text/css" />
+<script>
+
+    $(function(){
+
+        $("li").click(function(){
+            if($(this).parent().parent().attr('id')=='view'){
+                    $(this).appendTo("#selected ul");
+                }else{
+                    $(this).appendTo("#view ul");
+                }
+            //remove();
+            var allVal = [];
+             $('#selected input#users').each(function() {
+               allVal.push($(this).val());
+             });
+             $('#selectUser').val(allVal);
+        });
+    });
+    function updateTextArea() {
+         
+         var allVals = [];
+         $('#selected input#check_data').each(function() {
+           allVals.push($(this).val());
+         });
+         $('#selectUser').val(allVals)
+      }
+     $(function() {
+       $('#c_b input').click(updateTextArea);
+            updateTextArea();
+     });
+     function invite(){
+       window.returnValue = document.getElementById("selectUser").value;
+            window.close();
+            return false;
+    }
+</script>    
+</head>
+<body>
+<input type="button" onclick="invite()" value="Invite" /> 
+<table border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="50%" valign="top">
+    <div id="view">
+        <h1>Available Users
+            <span class="note">Click to select respective user</span>
+        </h1>
+        <ul class="user-list"><li></li>                
+      <%if(currentNode.getParent().hasNode("connection") && currentNode.getParent().getNode("connection").hasNode("friend")){
+        var friendNode=currentNode.getParent().getNode("connection").getNode("friend");
+        
+        for(i in friendNode){
+          if(friendNode[i].request=='accept'){
+            var userNode=currentNode.session.getRootNode()
+                                .getNode("content/user/"+friendNode[i].getName());
+            %>
+            <li>
+                <%                    
+                    if(userNode.hasProperty("profileImage")){
+                       %>
+                           <img src="<%=userNode.profileImage%>" width="46" height="54"  />
+                       <%}
+                         else{  %>
+                         <img src="<%=request.getContextPath()%>/apps/user/css/images/photo.gif" 
+                              width="46" height="54" /> 
+                       <%}%> 
+                    <%=userNode.name%> <%=userNode.lastName?userNode.lastName:""%>
+                    <input type="hidden" id="users" value="<%=userNode.getName()%>" />
+             </li>
+       <% }}    
+    }%>
+    </ul>
+</div>
+</td>
+<td width="50%" valign="top"> 
+<div id="selected">
+    <h1>Selected Users
+        <span class="note">Click on respective user to remove it</span>
+    </h1>
+    <ul class="user-list"><li></li>
+    </ul>
+</div>
+<div style="display:none;" >
+    <input type="text" id='selectUser'  />
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>    

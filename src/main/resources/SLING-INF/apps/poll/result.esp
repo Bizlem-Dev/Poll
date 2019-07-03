@@ -1,0 +1,68 @@
+<html>
+<head>
+</head>
+
+<body>
+<%var pollNode=currentNode.getNode(request.getParameter("nodeId"));
+var result=[];
+var percentResult=[];
+var totalVote=0;
+%>
+<div class="content">
+  <table width="97%" border="0" cellspacing="0" cellpadding="0" class="form">
+    <tr>
+      <th width="99%" colspan="3"><%=pollNode.pollTitle%><a href="javascript:void(0);" onclick="backButton()" >Back</a></th>
+    </tr>
+    
+    <tr>
+      <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="result-list">
+        <tr>
+          <th width="6%">%</th>
+          <th width="11%">Vote Count</th>
+          <th width="83%">Choices</th>
+        </tr>
+        <%if(pollNode.hasNode("Choices") && pollNode.getNode("Choices").hasNodes()){
+            var choiceNodes=pollNode.getNode("Choices").getNodes();
+            for(i=0;i<choiceNodes.length;i++){
+                if(choiceNodes[i].hasNode("Result")){
+                result[i]=choiceNodes[i].getNode("Result").getNodes().length;
+                totalVote+=choiceNodes[i].getNode("Result").getNodes().length;
+                
+                }    
+            }
+            for(k=choiceNodes.length-1;k>=0;k--){
+                if(choiceNodes[k].hasNode("Result")){
+                %>
+                 <tr>
+                    <td><%=(result[k]/totalVote)*100%>%</td>
+                    <td><%=result[k]%></td>
+                    <td><%=choiceNodes[k].choiceName%></td>
+                 </tr>   
+                <%
+                } else{
+                %>
+                 <tr>
+                    <td>0 %</td>
+                    <td>0</td>
+                    <td><%=choiceNodes[k].choiceName%></td>
+                 </tr>
+                <%
+                }   
+            }
+            
+        }%>
+       
+        
+        <tr>
+          <td><strong>Total</strong></td>
+          <td><strong><%=totalVote%></strong></td>
+          <td>&nbsp;</td>
+        </tr>
+      </table></td>
+    </tr>
+      </table></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

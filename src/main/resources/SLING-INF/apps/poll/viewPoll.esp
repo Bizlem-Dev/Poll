@@ -1,0 +1,93 @@
+<html>
+<head>
+<script>
+    function result(v){
+        var formId=document.getElementById(v);   
+         $.ajax({
+                        url: '<%=request.getContextPath()%>/servlet/poll/show.result',
+                        type: 'POST',
+                        data: $(formId).serialize(),
+                        success: function( data, textStatus, xmlHttpRequest ) {
+                             $(formId).parent("ol").parent("td").parent("tr").prev("tr").remove();
+                              $(formId).parent("ol").parent("td").parent("tr").remove();
+                        }
+               });
+    }
+</script>
+</head>
+<body>
+<div class="content">
+  <table width="97%" border="0" cellspacing="0" cellpadding="0" class="form">
+    <%
+    var countSize=0;
+    if(currentNode.hasNode("PollRequest") && currentNode.getNode("PollRequest").hasNodes()){
+        var pollRequest=currentNode.getNode("PollRequest").getNodes();
+        for(i in pollRequest){
+            var userNode=currentNode.session.getNode("/content/user/"+pollRequest[i].getName());
+            if(pollRequest[i].hasNodes()){
+              var count=0;
+                var pollNode=pollRequest[i].getNodes();
+                for(k in pollNode){
+                  if(currentNode.session.nodeExists(pollNode[k].pollPath)){
+                    var quesNode=currentNode.session.getNode(pollNode[k].pollPath);
+                    %>
+                    <%
+                        df = new Packages.java.text.SimpleDateFormat("yyyy-MM-dd");
+                        date = Packages.java.util.Calendar.getInstance();
+                        if (df.parse(quesNode.pollStartDate).compareTo(date.getTime()) < 0 
+                                && df.parse(quesNode.pollEndDate).compareTo(date.getTime()) > 0 ) {
+                                count=count+1;
+                                countSize=countSize+1;
+                          %>
+                          <%if(count==1){%>
+                          <tr>
+                            <td><strong>Mr. <%=userNode.name%> asked you to poll on following questions</strong></td>
+                          </tr>
+                          <tr>
+                             <td>&nbsp;</td>
+                          </tr>
+                          <%}%>
+                          <tr>
+                          <th>q . <%=quesNode.pollTitle%></th>
+                        </tr>
+                        <tr>
+                          <td><ol class="option-list">
+                              <form method="POST" id="<%=quesNode%>">
+                                  <%var choiceNode=quesNode.getNode("Choices").getNodes();
+                                    for(o=choiceNode.length-1;o>=0;o--){
+                                    %>
+                                    
+                                    <li>
+                                        <input type="radio" name="choiceResult" value="<%=choiceNode[o].getName()%>" />
+                                        <%=choiceNode[o].choiceName%>
+                                     </li> 
+                                    <%
+                                    }
+                                  %>
+                                  <input type="hidden" name="userId" value="<%=request.getParameter("userId")%>" />
+                                  <input type="hidden" name="pollPath" value="<%=quesNode%>" />
+                                  <input type="button" class="btn btn-info" value="Submit Result" 
+                                        onclick="result('<%=quesNode%>')" />
+                              </form>
+                            </ol></td>
+                         </tr>
+                         <tr>
+                          <td><hr /></td>
+                        </tr>
+                          <%  
+                        }
+                }}%>
+                    
+        <%        
+        }}
+    }
+    if(countSize==0){
+       out.println(" No Polls Present");
+    }
+    
+    %>
+    
+    
+  </table>
+</div>
+</body>

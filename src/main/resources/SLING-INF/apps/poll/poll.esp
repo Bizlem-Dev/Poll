@@ -1,0 +1,66 @@
+<%load("include/header.esp");%>
+<script>
+    $(function() {           
+        $("#pollTab").load("<%=request.getContextPath()%>/servlet/poll/show.view?userId=<%=
+                            currentNode.getParent().getName()%>");
+         $("#tab1").click(function(){
+            $("#tab2").removeClass("selected");
+            $("#tab1").addClass("selected");
+                $("#pollTab").load("<%=request.getContextPath()%>/servlet/poll/show.view?userId=<%=
+                            currentNode.getParent().getName()%>"); 
+         });
+         $("#tab2").click(function(){
+            $("#tab1").removeClass("selected");
+            $("#tab2").addClass("selected");
+                $("#pollTab").load("<%=request.getContextPath()%>/servlet/poll/show.viewPoll?userId=<%=
+                            currentNode.getParent().getName()%>"); 
+         });                       
+     });   
+     function create(){
+          $("#pollTab").load("<%=request.getContextPath()%>/servlet/poll/show.viewSave?userId=<%=
+                                                            request.getParameter("userId")%>"); 
+     }
+     function edit(param){
+          $("#pollTab").load("<%=request.getContextPath()%>/servlet/poll/show.viewEdit?userId=<%=
+                            request.getParameter("userId")%>&nodeId="+param);
+     }
+     function checkResult(param){
+        $("#pollTab").load("<%=request.getContextPath()%>/servlet/poll/show.viewResult?userId=<%=
+                            request.getParameter("userId")%>&nodeId="+param);
+     }
+     function backButton(){
+        $("#pollTab").load("<%=request.getContextPath()%>/servlet/poll/show.view?userId=<%=
+                            currentNode.getParent().getName()%>");
+     }
+     function deletePoll(pollName,id){
+       
+        if(confirm('Confirm Delete'))
+          { 
+            $.ajax({
+                type: 'POST',
+                url: '<%=request.getContextPath()%>/servlet/poll/show.deletePoll',
+                data:'userId=<%=request.getParameter("userId")%>&poll='+pollName,
+                success:function(){
+                   $(id).parent("h1").parent("div").remove();
+                }
+            });
+          }else{
+             
+          }  
+     
+     }
+     
+</script>
+</head>
+
+<body>
+    <ul class="section-tab">
+          <li id="tab1" class="selected" ><a href="javascript:void(0);">Polling List</a>
+         </li>
+          <li id="tab2" ><a href="javascript:void(0);">Polling Invitation</a>
+         </li>
+     </ul>       
+        <div id="pollTab"></div>
+</body>
+
+</html>

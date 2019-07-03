@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* CSS Document */
+body{margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px;}
+.user-list{margin:5px; padding:0px; list-style:none;}
+.user-list li{padding:5px 0px; margin:0px 5px 10px 5px; cursor:pointer; clear:both; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; display:table; width:300px; -moz-box-shadow: 0 0 5px #888;
+-webkit-box-shadow: 0 0 5px#888;
+box-shadow: 0 0 5px #888;
+background: #feffe8; /* Old browsers */
+background: -moz-linear-gradient(top,  #feffe8 0%, #d6dbbf 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feffe8), color-stop(100%,#d6dbbf)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #feffe8 0%,#d6dbbf 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #feffe8 0%,#d6dbbf 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #feffe8 0%,#d6dbbf 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #feffe8 0%,#d6dbbf 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffe8', endColorstr='#d6dbbf',GradientType=0 ); /* IE6-9 */
+}
+.user-list li:last-child{border-bottom:none;}
+.user-list li:hover{-moz-box-shadow: inset 0 0 5px #000000; -webkit-box-shadow: inset 0 0 5px #000000; box-shadow: inset 0 0 5px #000000;}
+.user-list li:hover{background:url(../images/icon_yes.gif) 98% 5px no-repeat;}
+#selected .user-list li:hover{background:url(../images/icon_no.png) 98% 5px no-repeat;}
+.user-list li .profile-picture{height:54px; width:46px; float:left; margin:0px 10px 5px 5px; border:1px solid #999; background-color:#FFFFFF; padding:2px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+.user-list li .profile-info{float:left;}
+.user-list li h2, .user-list li h3{float:left; display:inline-block; margin:0px 5px 0px 0px; padding:0px;}
+.user-list li h2{color:#0099FF; font-size:14px;}
+.user-list li h3{color:#666; font-size:12px;}
+.user-list li h2 a, .user-list li h3 a{color:#0099FF;}
+
+#view h1, #selected h1{margin:0px 0px; padding:5px 5px; color:#fff; font-size:16px; background-color:#333; -webkit-border-radius: 10px 10px 0px 0px; -moz-border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px;}
+#view h1 span, #selected h1 span{display:block; clear:left; font-size:10px; text-transform:lowercase; color:#ccc;}
+#view, #selected{background:url(../images/blog_bg.gif) 0px 0px repeat-x transparent; display:table; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; -moz-box-shadow: 0 0 3px #888; -webkit-box-shadow: 0 0 3px #888;box-shadow: 0 0 3px #888;-moz-box-shadow: 0 0 3px #888; -webkit-box-shadow: 0 0 3px #888;box-shadow: 0 0 3px #888; margin:15px;}

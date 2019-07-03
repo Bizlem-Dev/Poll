@@ -1,0 +1,93 @@
+<html>
+<%var currentNodeProvided = ((typeof currentNode != "undefined"));
+%>
+<head>
+    <script>
+        $(function() {
+            
+        });
+        function openPopUpParticipent(theURL, title, heightInPX, widthInPX,value)
+           {
+               var selectedValues= window.showModalDialog(theURL, title, 'dialogHeight=' + heightInPX + 'px;dialogWidth='+ widthInPX + 'px'); 
+               document.getElementById("participentId").value=selectedValues;
+               document.getElementById("pollId").value=value;
+               if(selectedValues!=null){
+                document.getElementById("formParticipent").submit();
+               }
+          }
+    </script>
+</head>
+<body>
+<div class="content">
+ <table width="99%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="25"><h1>List of Polls<a id="createPoll" onclick="create()" 
+          style="float:right; font-size:11px;padding:3px;" href="javascript:void(0);">Create New</a></h1>
+            </td>
+    </tr>
+    <tr>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>
+      <%if(currentNodeProvided && currentNode.hasNodes()){
+        var pollNodes=currentNode.getNodes();
+        for(i in pollNodes){
+        if(pollNodes[i].getName()!='PollRequest'){
+        %>
+            
+              <div class="internal-content">
+                  <h1><%
+                df = new Packages.java.text.SimpleDateFormat("yyyy-MM-dd");
+                date = Packages.java.util.Calendar.getInstance();
+                date.add(Packages.java.util.Calendar.DATE, -1);
+                if (df.parse(pollNodes[i].pollStartDate).compareTo(date.getTime()) < 0) {
+                    
+                }else{
+                %>
+                    <a href="javascript:void(0);" onclick="deletePoll('<%=pollNodes[i].getName()%>',this)"
+                            class="float-right" style="margin-left:10px;"><img src="<%=
+                                request.getContextPath()%>/apps/poll/css/images/icon_delete.png" border="0" align="absmiddle" />
+                        </a>
+                        <a href="javascript:void(0);" onclick="edit('<%=pollNodes[i].getName()%>')" 
+                            class="float-right"><img src="<%=
+                                request.getContextPath()%>/apps/poll/css/images/icon_edit.gif" border="0" align="absmiddle" />
+                        </a>
+                <%}%>
+                        
+                        
+                        <%=pollNodes[i].pollTitle%>
+                  </h1>
+                <ul>
+                    <li>Date: <%=pollNodes[i].pollStartDate%> - <%=pollNodes[i].pollEndDate%></li>
+                    <li>Participants: <strong><%if(pollNodes[i].hasNode("Participent") && 
+                                                    pollNodes[i].getNode("Participent").hasNodes()){
+                                                    out.println(pollNodes[i].getNode("Participent").getNodes().length);    
+                                                }else{
+                                                    out.println("0"); 
+                                                    }%></strong>
+                        <a href="javascript:void(0);" 
+                            onclick="openPopUpParticipent('<%=request.getContextPath()%>/servlet/poll/show.inviteUser?userId=<%=request.getParameter("userId")%>',
+                                                     'Invite Users', 600, 700,'<%=pollNodes[i].getName()%>')" class="link-add"><img src="<%=
+                                request.getContextPath()%>/apps/poll/css/images/icon_add2.gif" 
+                                border="0" align="absmiddle" /> Add More</a> 
+                        <a class="float-right" href="javascript:void(0);" 
+                           onclick="checkResult('<%=pollNodes[i].getName()%>')">Result</a>        
+                    </li>
+                </ul>
+            </div>
+    <%}}}else{
+        out.println("No Polls Created");
+    }%>
+ </td>
+    </tr>
+  </table>
+</div>
+<form id="formParticipent" action="<%=request.getContextPath()%>/servlet/poll/show.invite" method="POST">
+    <input type="hidden" value="<%=request.getParameter("userId")%>" name="userId" />
+    <input type="hidden" id="participentId" name="participent" />
+    <input type="hidden" id="pollId" name="pollId" />
+</form>
+</body>
+</html>
+

@@ -1,0 +1,134 @@
+<html>
+<head>
+<%
+var currentNodeProvided = ((typeof currentNode != "undefined"));
+%>
+<script>
+
+        function openPopUpFriend(theURL, title, heightInPX, widthInPX)
+           {
+               var selectedValues= window.showModalDialog(theURL, title, 'dialogHeight=' + heightInPX + 'px;dialogWidth='+ widthInPX + 'px'); 
+               document.getElementById("participentId").value=selectedValues;
+          }
+        $(function() {
+        $(function(){
+                $('*[name=startDate]').appendDtpicker({
+                    "dateFormat": "YYYY-MM-DD"
+                });
+            });
+            $(function(){
+                $('*[name=endDate]').appendDtpicker({
+                    "dateFormat": "YYYY-MM-DD"
+                });
+            });
+            $("#add").click(function(){
+                $("#choiceId li:last").append("<li><input type='text' name='choice' /></li>");               
+            });
+            $("#remove").click(function(){
+                if($("#choiceId li").size()!=2){
+                    $("#choiceId li:last").remove();
+                }else{
+                    alert("Max. 2 options are mandatory.");
+                }               
+            });
+        });
+        </script>
+</head>
+<body>
+<%
+var nodeName="";
+if(currentNodeProvided && request.getParameterMap().containsKey("nodeId")){
+    nodeName=currentNode.getNode(request.getParameter("nodeId"));
+    %>
+        <form method="POST" action="<%=request.getContextPath()%>/servlet/poll/show.edit" >      
+        <input type="hidden" name="pollId" value="<%=request.getParameter("nodeId")%>" />
+        
+    <%
+}else{%>
+    <form method="POST" action="<%=request.getContextPath()%>/servlet/poll/show.save" >
+<%}%>
+<div class="content">
+  <table width="97%" border="0" cellspacing="0" cellpadding="0" class="form">
+    <tr>
+      <th colspan="3">Title<a href="javascript:void(0);" onclick="backButton()"  >Back</a></th>
+    </tr>
+    <tr>
+      <td colspan="3"><input type="text" name="title" value="<%=currentNodeProvided?nodeName.pollTitle:""%>" id="textfield3" />
+                      <input type="hidden" name="userId" value="<%=request.getParameter("userId")%>" />
+                      <input type="hidden" id="participentId" name="participent" />                      
+     </td>
+    </tr>
+    <tr>
+      <th colspan="3">
+            <a href="javascript:void(0);" class="link-add" id="remove"><img 
+            src="<%=request.getContextPath()%>/apps/poll/css/images/icon_delete2.png" 
+            border="0" align="absmiddle" /> Remove</a>
+            
+            <a href="javascript:void(0);" id="add" class="link-add"><img 
+            src="<%=request.getContextPath()%>/apps/poll/css/images/icon_add2.gif" 
+            border="0" align="absmiddle" /> Add More</a>Choices
+
+      </th>
+    </tr>
+    <tr>
+      <td colspan="3">
+       <ol class="option-list" id="choiceId" >
+       <%if(currentNodeProvided && request.getParameterMap().containsKey("nodeId") 
+                && nodeName.hasNode("Choices") && nodeName.getNode("Choices").hasNodes()){
+                var choiceNode=nodeName.getNode("Choices").getNodes();
+                for(k=choiceNode.length-1;k>=0;k--){
+                %>
+                     <li>
+                       <input type="text" value="<%=choiceNode[k].choiceName%>"
+                                 name="choice"  />
+                     </li>
+                <%
+                }
+       }else{%>
+            <li>
+              <input type="text" name="choice" id="textfield6" />
+            </li>
+            <li>
+              <input type="text" name="choice" id="textfield6" />
+            </li>
+        <%}%>
+       </ol>
+      </td>
+    </tr>
+    <tr>
+      <th width="33%">Start Date</th>
+      <th width="33%">End Date</th>
+      <th width="33%">Participant</th>
+    </tr>
+    <tr>
+    
+      <td><input name="startDate" type="text" value="<%=currentNodeProvided?nodeName.pollStartDate:""%>" class="date-field" id="startDateId" />
+        <!--<a href="#"><img src="<%=request.getContextPath()%>/apps/poll/css/images/icon_calendar.png" 
+                    border="0" align="absmiddle" /></a>-->
+      </td>
+      <td><input name="endDate" type="text" value="<%=currentNodeProvided?nodeName.pollEndDate:""%>" class="date-field" id="endDateId" />
+        <!--<a href="#"><img src="<%=request.getContextPath()%>/apps/poll/css/images/icon_calendar.png" 
+                        border="0" align="absmiddle" /></a>-->
+      </td>
+      <td>&nbsp;&nbsp;<%if(request.getParameterMap().containsKey("nodeId") && nodeName.hasNode("Participent") && 
+                                                    nodeName.getNode("Participent").hasNodes()){
+                                                    out.println(nodeName.getNode("Participent").getNodes().length);    
+                                                }else{
+                                                    out.println("0"); 
+                                                    }%> <a href="javascript:void(0);" 
+                            onclick="openPopUpFriend('<%=request.getContextPath()%>/servlet/poll/show.inviteUser?userId=<%=request.getParameter("userId")%>',
+                                                     'Invite Users', 600, 700)" class="link-add"><img 
+            src="<%=request.getContextPath()%>/apps/poll/css/images/icon_add2.gif"
+             border="0" align="absmiddle" /> Add More</a>
+      </td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Submit" class="btn btn-info" /></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</div>
+
+</form>
+</body>

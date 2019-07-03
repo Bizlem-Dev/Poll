@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+body{margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:12px;}
+.content{-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; -moz-box-shadow: 0 0 3px #888; -webkit-box-shadow: 0 0 3px #888;box-shadow: 0 0 3px #888;}
+.content{padding-top:5px; background:url(images/blog_bg.gif) 0px 0px repeat-x transparent;}
+.content.main-message{-webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px;}
+
+.form{margin:5px 5px 5px 10px;}
+.form th{text-align:left; color:#666; text-transform:uppercase; font-size:12px; color:#0099FF; padding:5px 5px 0px 5px;}
+.form th a{float:right; margin-right:20px;}
+.form td{padding:5px 5px 5px 5px;}
+.form input, .form textarea{width:98%; margin-bottom:10px;}
+.form input[type="button"], .form input[type="submit"], .form input[type="reset"], .form input[type="radio"], .form input[type="checkbox"]{width:auto;}
+.link-add{font-size:10px !important; color:#0099FF; text-decoration:none; padding:3px;}
+.link-add:hover{border:1px dotted #CCCCCC;}
+.option-list{list-style-position:outside; list-style-type:lower-alpha; margin:5px 0px 0px 25px; padding:0px;}
+.date-field{width:100px !important;}
+
+.section-tab{margin:5px 0px 0px 10px; padding:0px; display:table;}
+.section-tab li{float:left; margin:0px 5px; list-style:none; border:1px solid #ccc; border-bottom:none; -webkit-border-radius: 10px 10px 0px 0px; -moz-border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px;}
+.section-tab li.selected, .section-tab li:hover{background:url(images/blog_bg.gif) 0px -35px repeat-x #fff;}
+.section-tab li a{text-decoration:none; color:#333; padding:10px 20px; display:block;}
+
+.form hr{background-color: #0099FF; height: 3px;}
+.result-list{border:1px dashed #efefef;}
+.result-list th{background-color:#666; color:#fff; text-transform:none;}
+.result-list tr:nth-child(2n) td {background-color:#efefef;}
+
+
+
+
+.content ul li a{color: #0099ff !important;}
+.content h1{margin:0px 0px 5px 0px; font-size:13px; clear: both; text-transform: uppercase; background:none; color: #0099ff; padding-left: 1px;}
+.content .desc{font-size:12px;}
+.header ul li, .content ul li{color: #0099ff; font-size:11px; float: left; margin-right:10px; text-transform:none;}
+
+.content .desc, .content ul, .content .attachment{margin:0px 0px 5px 0px; background:none; display:block;}
+
+.header ul, .content ul{margin: 0px 0px 10px 0px; padding: 0px 3px; list-style:none; width:100%; display:table;}
+.internal-content{border-bottom:1px dashed #666;  margin-left: 5px; margin-right: 4px; margin-bottom:5px; background-color:transparent;}
+.internal-content h1, .internal-content ul li{color:#666;}
+.internal-content a{color: #0099ff !important;}
+.float-right{float:right;}
